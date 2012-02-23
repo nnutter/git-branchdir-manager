@@ -1,6 +1,6 @@
-alias b='git-branch'
+alias b='git-branch-manager'
 complete -F _gb_complete b
-complete -F _gb_complete git-branch
+complete -F _gb_complete git-branch-manager
 
 function _gb_env {
     [ -z "$GB_BASE_DIR" ]        && GB_BASE_DIR="$HOME/git"
@@ -14,12 +14,12 @@ function _gb_env {
 
 function _gb_help {
     echo "Usage:"
-    echo "  git-branch <repo_name> init <repo_url>"
-    echo "  git-branch <repo_name> <branch_name> start"
-    echo "  git-branch <repo_name> <branch_name>"
-    echo "  git-branch <repo_name> <branch_name> finish"
-    echo "  git-branch <repo_name> <branch_name> rm"
-    echo "  git-branch <repo_name> <branch_name> lib"
+    echo "  git-branch-manager <repo_name> init <repo_url>"
+    echo "  git-branch-manager <repo_name> <branch_name> start"
+    echo "  git-branch-manager <repo_name> <branch_name>"
+    echo "  git-branch-manager <repo_name> <branch_name> finish"
+    echo "  git-branch-manager <repo_name> <branch_name> rm"
+    echo "  git-branch-manager <repo_name> <branch_name> lib"
 }
 
 function _gb_repos {
@@ -158,7 +158,11 @@ function _gb_rm_branch {
     if [ -d "$PRIOR_DIR" ]; then
         cd $PRIOR_DIR
     else
-        cd
+        if [ -d $(_gb_branch_dir "$GB_REPO" "$GB_DEV_BRANCH") ]; then
+            _gb_cd_branch "$GB_REPO" "$GB_DEV_BRANCH"
+        else
+            cd
+        fi
     fi
 }
 
@@ -196,7 +200,7 @@ function _gb_start_branch {
     local GB_BRANCH_DIR="$GB_BASE_DIR/$GB_REPO/$GB_BRANCH"
 
     if [ ! -d "$GB_MASTER_DIR" ]; then
-        echo "ERROR: git-branch master directory does not exist ($GB_MASTER_DIR)."
+        echo "ERROR: git-branch-manager master directory does not exist ($GB_MASTER_DIR)."
         return 255
     fi
 
@@ -215,10 +219,15 @@ function _gb_start_branch {
         git checkout -q "$GB_BRANCH"
         local TRACKING_REF=$(_git_tracking_ref "$GB_BRANCH")
         if [ -n "$TRACKING_REF" ]; then
-            git reset --hard "$TRACKING_REF"
-        else
-            git branch --set-upstream "$GB_BRANCH" "$GB_DEV_REMOTE_REF"
-            git $GB_WORKFLOW "$GB_DEV_REMOTE_REF"
+            echo -n "Would you like to track the remote $GB_BRANCH branch (y/n)? "
+            local response
+            read -n 1 response && echo
+            if [ "$response" == "y" ]; then
+                git reset --hard "$TRACKING_REF"
+            else
+                git branch --set-upstream "$GB_BRANCH" "$GB_DEV_REMOTE_REF"
+                git $GB_WORKFLOW "$GB_DEV_REMOTE_REF"
+            fi
         fi
     else
         git checkout -q -b "$GB_BRANCH" -t "$GB_DEV_REMOTE_REF"
@@ -301,7 +310,7 @@ function _gb_complete {
     fi
 }
 
-function git-branch {
+function git-branch-manager {
     _gb_env
     GB_REPO="$1"
     local GB_ACTION
