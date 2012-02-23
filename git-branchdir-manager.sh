@@ -9,6 +9,7 @@ function _gb_env {
     [ -z "$GB_MASTER_DIR_NAME" ] && GB_MASTER_DIR_NAME=".gb_master"
     [ -z "$GB_MASTER_BRANCH" ]   && GB_MASTER_BRANCH="gb_master"
     [ -z "$GB_DEV_REMOTE_REF" ]  && GB_DEV_REMOTE_REF="$GB_DEV_REMOTE/$GB_DEV_BRANCH"
+    [ -z "$GB_WORKFLOW" ]        && GB_WORKFLOW="rebase"
 }
 
 function _gb_help {
@@ -72,6 +73,7 @@ function _gb_cd_lib_dir {
     else
         [ -d "$GB_BRANCH_DIR/lib" ] && cd "$GB_BRANCH_DIR/lib"
     fi
+    return 0
 }
 
 function _gb_cd_branch {
@@ -125,7 +127,7 @@ function _gb_rm_branch {
     local TRACKING_REF=$(_git_tracking_ref "$GB_BRANCH")
     [[ -z "$TRACKING_REF" ]] && return 255
 
-    if (( $(git log --oneline $TRACKING_REF..HEAD | wc -l) )); then
+    if [ "$(git log --oneline $TRACKING_REF..HEAD | wc -l)" != "0" ]; then
         echo "ERROR: Unpushed changes in repo:"
         git log --oneline $TRACKING_REF..$GB_BRANCH | cat
         echo -n "Do you wish to remove this branch (y/n)? "
@@ -136,7 +138,7 @@ function _gb_rm_branch {
         fi
     fi
 
-    if (( $(git status -s | wc -l) )); then
+    if [ "$(git status -s | wc -l)" != "0" ]; then
         echo "ERROR: Uncommitted changes in repo:"
         git status -s
         echo -n "Do you wish to remove this branch (y/n)? "
@@ -147,16 +149,11 @@ function _gb_rm_branch {
         fi
     fi
 
-    if (( $(git branch | grep -P "\b$GB_BRANCH\b" | wc -l) )); then
-        if (( $(git branch | grep -P "\* $GB_BRANCH\b" | wc -l) )); then
-            git checkout -q "$GB_MASTER_BRANCH"
-        fi
-        git branch -D "$GB_BRANCH"
-    fi
-
+    cd "$GB_BASE_DIR/$GB_REPO/$GB_MASTER_DIR_NAME"
     echo "Removing '$GB_BRANCH_DIR'..."
     sleep 1
     rm -rf "$GB_BRANCH_DIR"
+    git branch -D "$GB_BRANCH"
 
     if [ -d "$PRIOR_DIR" ]; then
         cd $PRIOR_DIR
@@ -221,7 +218,7 @@ function _gb_start_branch {
             git reset --hard "$TRACKING_REF"
         else
             git branch --set-upstream "$GB_BRANCH" "$GB_DEV_REMOTE_REF"
-            git rebase "$GB_DEV_REMOTE_REF"
+            git $GB_WORKFLOW "$GB_DEV_REMOTE_REF"
         fi
     else
         git checkout -q -b "$GB_BRANCH" -t "$GB_DEV_REMOTE_REF"
@@ -240,7 +237,7 @@ function _gb_finish_branch {
     [[ -z "$TRACKING_REF" ]] && return 255
 
     git fetch -q || return 255
-    git rebase -q "$TRACKING_REF" || return 255
+    git $GB_WORKFLOW -q "$TRACKING_REF" || return 255
 
     git checkout -q "$GB_MASTER_BRANCH" || return 255
     _gb_refresh_master || return 255
