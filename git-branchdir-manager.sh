@@ -315,7 +315,7 @@ function _gb_complete {
         local GB_REPO=${COMP_WORDS[1]}
         local GB_BRANCH=${COMP_WORDS[2]}
         if [ -d "$(_gb_branch_dir "$GB_REPO" "$GB_BRANCH")" ]; then
-            COMPREPLY=($(compgen -W "finish rm" -- $cur))
+            COMPREPLY=($(compgen -W "finish lib rm" -- $cur))
         else
             if [ "$GB_BRANCH" != "init" ]; then
                 COMPREPLY=($(compgen -W "start" -- $cur))
