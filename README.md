@@ -1,12 +1,14 @@
 Usage
 =====
 
-  git-branchdir-manager <repo_name> init <repo_url>
-  git-branchdir-manager <repo_name> <branch_name> start
-  git-branchdir-manager <repo_name> <branch_name>
-  git-branchdir-manager <repo_name> <branch_name> finish
-  git-branchdir-manager <repo_name> <branch_name> rm
-  git-branchdir-manager <repo_name> <branch_name> lib
+~~~
+git-branchdir-manager <repo_name> init <repo_url>
+git-branchdir-manager <repo_name> <branch_name> start
+git-branchdir-manager <repo_name> <branch_name>
+git-branchdir-manager <repo_name> <branch_name> finish
+git-branchdir-manager <repo_name> <branch_name> rm
+git-branchdir-manager <repo_name> <branch_name> lib
+~~~
 
 Try It Out
 ==========
