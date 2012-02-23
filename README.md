@@ -13,8 +13,10 @@ git-branchdir-manager <repo_name> <branch_name> lib
 Try It Out
 ==========
 
+~~~
 git clone git://github.com/nnutter/git-branchdir-manager.git
 source git-branchdir-manager/git-branchdir-manager.sh
+~~~
 
 Recomended Install
 ==================
