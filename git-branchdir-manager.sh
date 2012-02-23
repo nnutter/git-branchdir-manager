@@ -275,10 +275,24 @@ function _gb_init_repo {
     fi
 
     mkdir -p "$GB_REPO_BASE_DIR"
-    git clone -q "$GB_REPO_URL" "$GB_REPO_MASTER_DIR"
+    if echo $GB_REPO_URL | grep -qP "^/"; then
+        cp -a "$GB_REPO_URL" "$GB_REPO_MASTER_DIR"
+        cd "$GB_REPO_MASTER_DIR"
+        local GB_GIT_NEW_WORKDIR=$(_gb_new_workdir_path)
+        local CURRENT_BRANCH=$(_git_current_branch)
+        $GB_GIT_NEW_WORKDIR "$GB_REPO_MASTER_DIR" "$GB_REPO_BASE_DIR/$CURRENT_BRANCH"
+        rsync -a --delete --exclude '.git' "$GB_REPO_MASTER_DIR/" "$GB_REPO_BASE_DIR/$CURRENT_BRANCH/"
+        echo "Remove '$GB_REPO_URL' after you have verified nothing is missing."
+    else
+        git clone -q "$GB_REPO_URL" "$GB_REPO_MASTER_DIR"
+    fi
     cd "$GB_REPO_MASTER_DIR"
     git checkout -q -b "$GB_MASTER_BRANCH"
-    _gb_start_branch "$GB_REPO" "master"
+    if echo $GB_REPO_URL | grep -qP "^/"; then
+        _gb_cd_branch "$GB_REPO" "$CURRENT_BRANCH"
+    else
+        _gb_start_branch "$GB_REPO" "master"
+    fi
 }
 
 function _gb_complete {
