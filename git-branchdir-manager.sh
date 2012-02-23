@@ -1,6 +1,6 @@
-alias b='git-branch-manager'
+alias b='git-branchdir-manager'
 complete -F _gb_complete b
-complete -F _gb_complete git-branch-manager
+complete -F _gb_complete git-branchdir-manager
 
 function _gb_env {
     [ -z "$GB_BASE_DIR" ]        && GB_BASE_DIR="$HOME/git"
@@ -14,12 +14,12 @@ function _gb_env {
 
 function _gb_help {
     echo "Usage:"
-    echo "  git-branch-manager <repo_name> init <repo_url>"
-    echo "  git-branch-manager <repo_name> <branch_name> start"
-    echo "  git-branch-manager <repo_name> <branch_name>"
-    echo "  git-branch-manager <repo_name> <branch_name> finish"
-    echo "  git-branch-manager <repo_name> <branch_name> rm"
-    echo "  git-branch-manager <repo_name> <branch_name> lib"
+    echo "  git-branchdir-manager <repo_name> init <repo_url>"
+    echo "  git-branchdir-manager <repo_name> <branch_name> start"
+    echo "  git-branchdir-manager <repo_name> <branch_name>"
+    echo "  git-branchdir-manager <repo_name> <branch_name> finish"
+    echo "  git-branchdir-manager <repo_name> <branch_name> rm"
+    echo "  git-branchdir-manager <repo_name> <branch_name> lib"
 }
 
 function _gb_repos {
@@ -200,7 +200,7 @@ function _gb_start_branch {
     local GB_BRANCH_DIR="$GB_BASE_DIR/$GB_REPO/$GB_BRANCH"
 
     if [ ! -d "$GB_MASTER_DIR" ]; then
-        echo "ERROR: git-branch-manager master directory does not exist ($GB_MASTER_DIR)."
+        echo "ERROR: git-branchdir-manager master directory does not exist ($GB_MASTER_DIR)."
         return 255
     fi
 
@@ -324,7 +324,7 @@ function _gb_complete {
     fi
 }
 
-function git-branch-manager {
+function git-branchdir-manager {
     _gb_env
     GB_REPO="$1"
     local GB_ACTION
