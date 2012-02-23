@@ -21,7 +21,7 @@ source git-branchdir-manager/git-branchdir-manager.sh
 Recomended Install
 ==================
 
-If you don't do this already you might consider creating a ~/.bashrc.d directory and loading all scripts in it with something like this in your ~/.bashrc:
+If you don't do this already you might consider creating a `~/.bashrc.d` directory and loading all scripts in it with something like this in your `~/.bashrc`:
 
 ~~~
 function load_dir {
