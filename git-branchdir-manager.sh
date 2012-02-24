@@ -191,7 +191,9 @@ function _gb_refresh_master {
     fi
 
     local ORIG_DIR="$PWD"
-    _gb_cd_branch "$GB_REPO" "$GB_MASTER_DIR_NAME"
+    local ORIG_BRANCH="$GB_BRANCH"
+    local GB_MASTER_DIR="$(_gb_branch_dir "$GB_REPO" "$GB_MASTER_DIR_NAME")"
+    cd "$GB_MASTER_DIR"
     if [ "$(_git_current_branch)" != "$GB_MASTER_BRANCH" ]; then
         git checkout "$GB_MASTER_BRANCH"
     fi
@@ -224,6 +226,7 @@ function _gb_start_branch {
 
     _gb_refresh_master "$GB_REPO" || return 255
     $GB_GIT_NEW_WORKDIR "$GB_MASTER_DIR" "$GB_BRANCH_DIR"
+    cd "$GB_BRANCH_DIR"
     if _git_branch_exists "$GB_BRANCH"; then
         git checkout -q "$GB_BRANCH"
         local TRACKING_REF=$(_git_tracking_ref "$GB_BRANCH")
