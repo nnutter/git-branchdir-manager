@@ -44,3 +44,21 @@ mkdir ${HOME}/.bashrc.d
 cd ${HOME}/.bashrc.d
 git clone git://github.com/nnutter/git-branchdir-manager.git
 ~~~
+
+Synopsis
+========
+
+- start
+    Creates a new branch and working directory.
+
+- finish
+    Merges the branch into `$GB_MASTER_BRANCH` and pushes it to `origin/$GB_DEV_BRANCH`.
+
+- rm
+    Removes the branch and working directory. If there are unmerged commits or changes then you will be prompted to confirm the removal.
+
+- lib
+    Echos the "lib" directory in the branch so you can use it in includes.
+
+    `export PERL5LIB=$(b repo branch lib):$PERL5LIB`
+
