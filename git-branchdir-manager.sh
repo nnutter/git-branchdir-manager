@@ -94,6 +94,7 @@ function _gb_cd_branch {
             return 255
         fi
     fi
+    GB_BRANCH="$(_git_current_branch)"
 
     cd "$GB_BRANCH_DIR"
     _gb_cd_lib_dir "$GB_BRANCH_DIR"
@@ -183,6 +184,14 @@ function _gb_new_workdir_path {
 
 function _gb_refresh_master {
     _gb_env
+    local GB_REPO="$1"
+
+    if [ -z "$GB_REPO" ]; then
+        return 255
+    fi
+
+    local ORIG_DIR="$PWD"
+    _gb_cd_branch "$GB_REPO" "$GB_MASTER_DIR_NAME"
     if [ "$(_git_current_branch)" != "$GB_MASTER_BRANCH" ]; then
         git checkout "$GB_MASTER_BRANCH"
     fi
@@ -190,6 +199,7 @@ function _gb_refresh_master {
     git merge -q "$GB_DEV_REMOTE_REF"
     git reset -q --hard "$GB_DEV_REMOTE_REF"
     git clean -qxdf
+    cd "$ORIG_DIR"
 }
 
 function _gb_start_branch {
@@ -212,10 +222,8 @@ function _gb_start_branch {
 
     local GB_GIT_NEW_WORKDIR=$(_gb_new_workdir_path)
 
-    cd "$GB_MASTER_DIR"
-    _gb_refresh_master
+    _gb_refresh_master "$GB_REPO" || return 255
     $GB_GIT_NEW_WORKDIR "$GB_MASTER_DIR" "$GB_BRANCH_DIR"
-    cd "$GB_BRANCH_DIR"
     if _git_branch_exists "$GB_BRANCH"; then
         git checkout -q "$GB_BRANCH"
         local TRACKING_REF=$(_git_tracking_ref "$GB_BRANCH")
@@ -266,8 +274,8 @@ function _gb_finish_branch {
 
     _gb_update_branch "$GB_REPO" "$GB_BRANCH"
 
+    _gb_refresh_master "$GB_REPO" || return 255
     git checkout -q "$GB_MASTER_BRANCH" || return 255
-    _gb_refresh_master || return 255
     git merge -q --no-ff "$GB_BRANCH" || return 255
     git push -q origin $GB_MASTER_BRANCH:$GB_DEV_BRANCH || return 255
 
