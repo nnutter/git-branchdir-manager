@@ -431,3 +431,11 @@ function _git_current_branch {
 function _git_branch_exists {
     git show-ref --quiet "$1"
 }
+
+function _git_has_changes {
+    if git status -s | grep -q '^ M'; then
+        return 1
+    else
+        return 0
+    fi
+}
