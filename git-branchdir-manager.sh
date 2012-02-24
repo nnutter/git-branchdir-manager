@@ -17,6 +17,7 @@ function _gb_help {
     echo "  git-branchdir-manager <repo_name> init <repo_url>"
     echo "  git-branchdir-manager <repo_name> <branch_name> start"
     echo "  git-branchdir-manager <repo_name> <branch_name>"
+    echo "  git-branchdir-manager <repo_name> <branch_name> update"
     echo "  git-branchdir-manager <repo_name> <branch_name> finish"
     echo "  git-branchdir-manager <repo_name> <branch_name> rm"
     echo "  git-branchdir-manager <repo_name> <branch_name> lib"
@@ -236,17 +237,26 @@ function _gb_start_branch {
     _gb_cd_lib_dir "$GB_BRANCH_DIR"
 }
 
-function _gb_finish_branch {
+function _gb_update_branch {
     _gb_env
     local GB_REPO="$1"
     local GB_BRANCH="$2"
 
     _gb_cd_branch "$GB_REPO" "$GB_BRANCH"
+
     local TRACKING_REF=$(_git_tracking_ref "$GB_BRANCH")
     [[ -z "$TRACKING_REF" ]] && return 255
 
     git fetch -q || return 255
     git $GB_WORKFLOW -q "$TRACKING_REF" || return 255
+}
+
+function _gb_finish_branch {
+    _gb_env
+    local GB_REPO="$1"
+    local GB_BRANCH="$2"
+
+    _gb_update_branch "$GB_REPO" "$GB_BRANCH"
 
     git checkout -q "$GB_MASTER_BRANCH" || return 255
     _gb_refresh_master || return 255
@@ -387,6 +397,12 @@ function git-branchdir-manager {
         start)
             if ! _gb_start_branch "$GB_REPO" "$GB_BRANCH"; then
                 echo "ERROR: Failed to start branch."
+                return 255
+            fi
+        ;;
+        update)
+            if ! _gb_update_branch "$GB_REPO" "$GB_BRANCH"; then
+                echo "ERROR: Failed to update branch."
                 return 255
             fi
         ;;
