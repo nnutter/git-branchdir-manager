@@ -247,8 +247,9 @@ function _gb_update_branch {
     local TRACKING_REF=$(_git_tracking_ref "$GB_BRANCH")
     [[ -z "$TRACKING_REF" ]] && return 255
 
+    echo "Fetching..."
     git fetch -q || return 255
-    git $GB_WORKFLOW -q "$TRACKING_REF" || return 255
+    git $GB_WORKFLOW "$TRACKING_REF" || return 255
 }
 
 function _gb_finish_branch {
