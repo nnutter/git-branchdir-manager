@@ -249,7 +249,14 @@ function _gb_update_branch {
 
     echo "Fetching..."
     git fetch -q || return 255
+    if [ "$(_git_has_changes)" ]; then
+        git stash || return 255
+        local stashed=1
+    fi
     git $GB_WORKFLOW "$TRACKING_REF" || return 255
+    if [ "$stashed" ]; then
+        git stash pop || return 255
+    fi
 }
 
 function _gb_finish_branch {
@@ -451,8 +458,6 @@ function _git_branch_exists {
 
 function _git_has_changes {
     if git status -s | grep -q '^ M'; then
-        return 1
-    else
-        return 0
+        echo "1"
     fi
 }
