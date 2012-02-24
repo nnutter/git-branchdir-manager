@@ -94,9 +94,9 @@ function _gb_cd_branch {
             return 255
         fi
     fi
-    GB_BRANCH="$(_git_current_branch)"
 
     cd "$GB_BRANCH_DIR"
+    GB_BRANCH="$(_git_current_branch)"
     _gb_cd_lib_dir "$GB_BRANCH_DIR"
 }
 
