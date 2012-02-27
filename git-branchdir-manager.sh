@@ -230,7 +230,7 @@ function _gb_start_branch {
     if _git_branch_exists "$GB_BRANCH"; then
         git checkout -q "$GB_BRANCH"
         local TRACKING_REF=$(_git_tracking_ref "$GB_BRANCH")
-        if [ -n "$TRACKING_REF" ] && [ "$TRACKING_REF" ne "$GB_DEV_BRANCH" ]; then
+        if [ -n "$TRACKING_REF" ] && [ "$TRACKING_REF" != "$GB_DEV_REMOTE/$GB_DEV_BRANCH" ]; then
             echo -n "Would you like to track the remote $GB_BRANCH branch (y/n)? "
             local response
             read -n 1 response && echo
