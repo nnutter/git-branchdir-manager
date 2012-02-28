@@ -36,6 +36,29 @@ function _gb_version_check {
     fi
 }
 
+function _gb_current_repo {
+    _gb_env
+    local SUBDIR="${PWD#$GB_BASE_DIR\/}" || return 255;
+    local REPO="${SUBDIR/\/*/}"
+    if [ -n "$REPO" ]; then
+        echo "$REPO"
+    else
+        return 255;
+    fi
+}
+
+function _gb_current_branch {
+    _gb_env
+    local REPO=$(_gb_current_repo) || return 255;
+    local SUBDIR="${PWD#$GB_BASE_DIR\/$REPO\/}" || return 255;
+    local BRANCH="${SUBDIR/\/*/}"
+    if [ -n "$BRANCH" ]; then
+        echo "$BRANCH"
+    else
+        return 255;
+    fi
+}
+
 function _gb_repos {
     _gb_env
     if [ -d "$GB_BASE_DIR" ]; then
