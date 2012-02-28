@@ -399,7 +399,28 @@ function git-branchdir-manager {
             GB_ACTION="help"
             ;;
         1)
-            GB_ACTION="ls"
+            if [ "$GB_REPO" == "update" ] || [ "$GB_REPO" == "rm" ] || [ "$GB_REPO" == "finish" ]; then
+                GB_ACTION="$GB_REPO"
+                GB_REPO=$(_gb_current_repo)
+                if [ -z "$GB_REPO" ]; then
+                    echo "ERROR: Could not determine current repo."
+                    return 255;
+                fi
+
+                GB_BRANCH=$(_gb_current_branch)
+                if [ -z "$GB_BRANCH" ]; then
+                    echo "ERROR: Could not determine current branchdir."
+                    return 255;
+                fi
+
+                local GIT_BRANCH=$(_git_current_branch)
+                if [ "$GB_BRANCH" != "$GIT_BRANCH" ]; then
+                    echo "ERROR: Git branch does not match branchdir."
+                    return 255;
+                fi
+            else
+                GB_ACTION="ls"
+            fi
             ;;
         2)
             GB_BRANCH="$2"
@@ -420,7 +441,7 @@ function git-branchdir-manager {
         GB_ACTION="init"
     fi
 
-    if [ "$GB_BRANCH" == "rm" ] || [ "$GB_BRANCH" == "start" ] ||  [ "$GB_BRANCH" == "init" ] || [ "$GB_BRANCH" == "finish" ] || [ "$GB_BRANCH" == "lib" ]; then
+    if [ "$GB_BRANCH" == "start" ] || [ "$GB_BRANCH" == "init" ] || [ "$GB_BRANCH" == "lib" ]; then
         echo "ERROR: No branch argument specified."
         return 255
     fi
