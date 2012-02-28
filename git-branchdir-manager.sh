@@ -428,6 +428,7 @@ function git-branchdir-manager {
     for item in $*; do
         if [ "$item" == "--help" ] || [ "$item" == "-h" ]; then
             GB_ACTION="help"
+            GB_REPO=$(_gb_current_repo)
         fi
     done
 
