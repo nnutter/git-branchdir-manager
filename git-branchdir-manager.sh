@@ -295,21 +295,9 @@ function _gb_update_branch {
     local TRACKING_REF=$(_git_tracking_ref "$GB_BRANCH")
     [[ -z "$TRACKING_REF" ]] && return 255
 
-    local STASH_MSG="git-branchdir-manager auto stash $GB_BRANCH"
     echo "Fetching..."
     git fetch -q || return 255
-    if [ "$(_git_has_changes)" ]; then
-        if git stash list | grep -q ": $STASH_MSG$"; then
-            echo "Warning: can not automatically stash changes because a stash with message 'gb_master' exists."
-        else
-            git stash save -q "$STASH_MSG" || return 255
-        fi
-    fi
     git $GB_WORKFLOW "$TRACKING_REF" || return 255
-    local STASH=$(git stash list | grep ": $STASH_MSG$" | cut -d : -f 1)
-    if [ -n "$STASH" ]; then
-        git stash pop -q "$STASH" || return 255
-    fi
 }
 
 function _gb_finish_branch {
