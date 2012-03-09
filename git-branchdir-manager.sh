@@ -2,6 +2,12 @@ alias b='git-branchdir-manager'
 complete -F _gb_complete b
 complete -F _gb_complete git-branchdir-manager
 
+SOURCE=${BASH_SOURCE[0]}
+while readlink $SOURCE; do
+    SOURCE=$(readlink $SOURCE)
+done
+export GB_VERSION=$(cat ${SOURCE/git-branchdir-manager.sh/VERSION} 2> /dev/null || echo 0)
+
 function _gb_env {
     [ -z "$GB_BASE_DIR" ]        && GB_BASE_DIR="$HOME/git"
     [ -z "$GB_DEV_BRANCH" ]      && GB_DEV_BRANCH="master"
@@ -21,6 +27,13 @@ function _gb_help {
     echo "  git-branchdir-manager <repo_name> <branch_name> finish"
     echo "  git-branchdir-manager <repo_name> <branch_name> rm"
     echo "  git-branchdir-manager <repo_name> <branch_name> lib"
+}
+
+function _gb_version_check {
+    local remote_version=$(curl -f "https://raw.github.com/nnutter/git-branchdir-manager/master/VERSION" 2> /dev/null)
+    if [ -n "$remote_version" ] && (( "$remote_version" > "$GB_VERSION" )); then
+        echo "Updated git-branchdir-manager version ($remote_version) available."
+    fi
 }
 
 function _gb_repos {
@@ -355,6 +368,7 @@ function _gb_complete {
 
 function git-branchdir-manager {
     _gb_env
+    _gb_version_check
     GB_REPO="$1"
     local GB_ACTION
     case $# in
