@@ -8,6 +8,7 @@ while readlink $SOURCE; do
     SOURCE=$(readlink $SOURCE)
 done
 export GB_VERSION=$(cat ${SOURCE/git-branchdir-manager.sh/VERSION} 2> /dev/null || echo 0)
+export GB_GIT_NEW_WORKDIR="$(cd -P "${SOURCE/git-branchdir-manager.sh/}" && pwd)/git-new-workdir"
 
 function _gb_env {
     [ -z "$GB_BASE_DIR" ]        && GB_BASE_DIR="$HOME/git"
@@ -205,20 +206,6 @@ function _gb_rm_branch {
     fi
 }
 
-function _gb_new_workdir_path {
-    local GB_GIT_NEW_WORKDIR
-    if which git-new-workdir 1> /dev/null 2> /dev/null; then
-        GB_GIT_NEW_WORKDIR=$(which git-new-workdir)
-    else
-        local GB_TMP_GIT_NEW_WORKDIR="/tmp/git-new-workdir"
-        echo "WARNING: git-new-workdir not installed, downloading to $GB_TMP_GIT_NEW_WORKDIR." 1>&2
-        local GB_GIT_NEW_WORKDIR_URL="https://raw.github.com/gitster/git/master/contrib/workdir/git-new-workdir"
-        curl -s -o "$GB_TMP_GIT_NEW_WORKDIR" "$GB_GIT_NEW_WORKDIR_URL"
-        GB_GIT_NEW_WORKDIR="/bin/sh $GB_TMP_GIT_NEW_WORKDIR"
-    fi
-    echo "$GB_GIT_NEW_WORKDIR"
-}
-
 function _gb_refresh_master {
     _gb_env
     local GB_REPO="$1"
@@ -258,8 +245,6 @@ function _gb_start_branch {
         echo "ERROR: Branch directory already exists ($GB_BRANCH_DIR)."
         return 255
     fi
-
-    local GB_GIT_NEW_WORKDIR=$(_gb_new_workdir_path)
 
     _gb_refresh_master "$GB_REPO" || return 255
     $GB_GIT_NEW_WORKDIR "$GB_MASTER_DIR" "$GB_BRANCH_DIR"
@@ -337,7 +322,6 @@ function _gb_init_repo {
     if echo $GB_REPO_URL | grep -qP "^/"; then
         cp -a "$GB_REPO_URL" "$GB_REPO_MASTER_DIR"
         cd "$GB_REPO_MASTER_DIR"
-        local GB_GIT_NEW_WORKDIR=$(_gb_new_workdir_path)
         local CURRENT_BRANCH=$(_git_current_branch)
         $GB_GIT_NEW_WORKDIR "$GB_REPO_MASTER_DIR" "$GB_REPO_BASE_DIR/$CURRENT_BRANCH"
         rsync -a --delete --exclude '.git' "$GB_REPO_MASTER_DIR/" "$GB_REPO_BASE_DIR/$CURRENT_BRANCH/"
