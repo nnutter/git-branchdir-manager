@@ -31,7 +31,7 @@ Try It Out
 ~~~
 git clone git://github.com/nnutter/git-branchdir-manager.git
 source git-branchdir-manager/git-branchdir-manager.sh
-b # alias for git-branchdir-manager
+b $some_repo init $some_repo_url # b is default alias for git-branchdir-manager
 ~~~
 
 Recomended Install
