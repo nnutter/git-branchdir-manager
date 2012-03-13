@@ -1,3 +1,8 @@
+What is git-branchdir-manager?
+==============================
+
+git-branchdir-manager creates separate working directories for each branch of a repo. It then helps you manage your repos and branches by providing tab completion to switch between them, create new branches, fold changes into your master branch, and remove branches.
+
 Usage
 =====
 
@@ -9,6 +14,16 @@ git-branchdir-manager <repo_name> <branch_name> finish
 git-branchdir-manager <repo_name> <branch_name> rm
 git-branchdir-manager <repo_name> <branch_name> lib
 ~~~
+
+Configuration
+=============
+
+If you wish to override any of these setting export these variables in your `.bashrc` before you source git-branchdir-manager.sh.
+
+`GB_BASE_DIR` (default = "$HOME/git") The base directory where your repos will be stored.
+`GB_DEV_BRANCH` (default = "master") The branch you wish to develop off of.
+`GB_DEV_REMOTE` (default = "origin") The remote you wish to develop off of.
+`GB_WORKFLOW` (default = "rebase") Whether you rebase or merge.
 
 Try It Out
 ==========
@@ -67,3 +82,10 @@ Synopsis
 
     `export PERL5LIB=$(b repo branch lib):$PERL5LIB`
 
+TODO
+====
+
+- Per-repo configurations.
+- Better names for start and finish.
+- Configurable default directory.
+- Rewrite guts in non-Bash?
