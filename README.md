@@ -64,6 +64,10 @@ git clone git://github.com/nnutter/git-branchdir-manager.git
 Synopsis
 ========
 
+- **init**
+
+    Initialize a new repo. This sets up a hidden "master" repo which is used to create the sparse repos (working directories).
+
 - **start**
 
     Creates a new branch and working directory.
