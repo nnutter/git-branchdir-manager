@@ -10,7 +10,7 @@ Usage
 git-branchdir-manager <repo_name> init <repo_url>
 git-branchdir-manager <repo_name> <branch_name> start
 git-branchdir-manager <repo_name> <branch_name>
-git-branchdir-manager <repo_name> <branch_name> finish
+git-branchdir-manager <repo_name> <branch_name> publish
 git-branchdir-manager <repo_name> <branch_name> rm
 git-branchdir-manager <repo_name> <branch_name> lib
 ~~~
@@ -72,7 +72,7 @@ Synopsis
 
     Creates a new branch and working directory.
 
-- **finish**
+- **publish**
 
     Merges the branch into `$GB_MASTER_BRANCH` and pushes it to `origin/$GB_DEV_BRANCH`.
 
@@ -90,6 +90,5 @@ TODO
 ====
 
 - Per-repo configurations.
-- Better names for start and finish.
 - Configurable default directory.
 - Rewrite guts in non-Bash?

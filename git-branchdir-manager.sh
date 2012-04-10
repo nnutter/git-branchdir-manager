@@ -26,7 +26,7 @@ function _gb_help {
     echo "  git-branchdir-manager <repo_name> <branch_name> start"
     echo "  git-branchdir-manager <repo_name> <branch_name>"
     echo "  git-branchdir-manager <repo_name> <branch_name> update"
-    echo "  git-branchdir-manager <repo_name> <branch_name> finish"
+    echo "  git-branchdir-manager <repo_name> <branch_name> publish"
     echo "  git-branchdir-manager <repo_name> <branch_name> rm"
     echo "  git-branchdir-manager <repo_name> <branch_name> lib"
 }
@@ -285,7 +285,7 @@ function _gb_update_branch {
     git $GB_WORKFLOW "$TRACKING_REF" || return 255
 }
 
-function _gb_finish_branch {
+function _gb_publish_branch {
     _gb_env
     local GB_REPO="$1"
     local GB_BRANCH="$2"
@@ -358,7 +358,7 @@ function _gb_complete {
         local GB_REPO=${COMP_WORDS[1]}
         local GB_BRANCH=${COMP_WORDS[2]}
         if [ -d "$(_gb_branch_dir "$GB_REPO" "$GB_BRANCH")" ]; then
-            COMPREPLY=($(compgen -W "finish lib rm update" -- $cur))
+            COMPREPLY=($(compgen -W "publish lib rm update" -- $cur))
         else
             if [ "$GB_BRANCH" != "init" ]; then
                 COMPREPLY=($(compgen -W "start" -- $cur))
@@ -377,7 +377,7 @@ function git-branchdir-manager {
             GB_ACTION="help"
             ;;
         1)
-            if [ "$GB_REPO" == "update" ] || [ "$GB_REPO" == "rm" ] || [ "$GB_REPO" == "finish" ]; then
+            if [ "$GB_REPO" == "update" ] || [ "$GB_REPO" == "rm" ] || [ "$GB_REPO" == "publish" ]; then
                 GB_ACTION="$GB_REPO"
                 GB_REPO=$(_gb_current_repo)
                 if [ -z "$GB_REPO" ]; then
@@ -462,9 +462,9 @@ function git-branchdir-manager {
                 return 255
             fi
         ;;
-        finish)
-            if ! _gb_finish_branch "$GB_REPO" "$GB_BRANCH"; then
-                echo "ERROR: Failed to finish branch."
+        publish)
+            if ! _gb_publish_branch "$GB_REPO" "$GB_BRANCH"; then
+                echo "ERROR: Failed to publish branch."
                 return 255
             fi
         ;;
