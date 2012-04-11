@@ -1,5 +1,4 @@
-alias b='git-branchdir-manager'
-alias bu='b update'
+alias gbm='git-branchdir-manager'
 complete -F _gb_complete b
 complete -F _gb_complete git-branchdir-manager
 
