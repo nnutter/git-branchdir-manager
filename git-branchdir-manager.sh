@@ -1,5 +1,5 @@
 alias gbm='git-branchdir-manager'
-complete -F _gb_complete b
+complete -F _gb_complete gbm
 complete -F _gb_complete git-branchdir-manager
 
 SOURCE=${BASH_SOURCE[0]}
