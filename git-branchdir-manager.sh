@@ -21,13 +21,13 @@ function _gb_env {
 
 function _gb_help {
     echo "Usage:"
-    echo "  git-branchdir-manager <repo_name> init <repo_url>"
-    echo "  git-branchdir-manager <repo_name> <branch_name> start"
-    echo "  git-branchdir-manager <repo_name> <branch_name>"
-    echo "  git-branchdir-manager <repo_name> <branch_name> update"
-    echo "  git-branchdir-manager <repo_name> <branch_name> publish"
-    echo "  git-branchdir-manager <repo_name> <branch_name> rm"
-    echo "  git-branchdir-manager <repo_name> <branch_name> lib"
+    echo "  gbm <repo_name> init <repo_url>"
+    echo "  gbm <repo_name> <branch_name> start"
+    echo "  gbm <repo_name> <branch_name>"
+    echo "  gbm <repo_name> <branch_name> update"
+    echo "  gbm <repo_name> <branch_name> publish"
+    echo "  gbm <repo_name> <branch_name> rm"
+    echo "  gbm <repo_name> <branch_name> lib"
 }
 
 function _gb_version_check {
