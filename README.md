@@ -64,6 +64,8 @@ TODO
 - Per-repo configurations.
 - Configurable default directory.
 - Rewrite guts in non-Bash?
+- Make it easier to move GB_BASE_DIR (e.g. fix git-new-workdir symlinks)
+- Manage a remote-less repo.
 
 [1]: https://github.com/nnutter/git-branchdir-manager/blob/master/setup.sh
 [2]: https://github.com/nnutter/git-branchdir-manager/blob/master/bashrc
