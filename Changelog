@@ -1,0 +1,5 @@
+Version 9:
+	- Changed default location for GB_BASE_DIR from ~/git to ~/gbm. You should override GB_BASE_DIR to ~/git in your ~/.bashrc (before loading gbm) if you are upgrading from an older version.
+	- Changed default alias from 'b' to 'gbm'.
+	- Changed 'finish' subcommand to 'publish'.
+	- Hid 'start' subcommand, just type a new branch name and you will be prompted to create it.
