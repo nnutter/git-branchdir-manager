@@ -8,7 +8,6 @@ Usage
 
 ~~~
 gbm <repo_name> init <repo_url>
-gbm <repo_name> <branch_name> start
 gbm <repo_name> <branch_name>
 gbm <repo_name> <branch_name> publish
 gbm <repo_name> <branch_name> rm
@@ -34,16 +33,15 @@ If you already have a .bashrc that is setup to load a directory of .bashrc files
 bash >(curl https://raw.github.com/nnutter/git-branchdir-manager/master/setup.sh)
 ~~~
 
-Synopsis
-========
+Repo Subcommands
+================
 
 - **init**
 
     Initialize a new repo. This sets up a hidden "master" repo which is used to create the sparse repos (working directories).
 
-- **start**
-
-    Creates a new branch and working directory.
+Branchdir Subcommands
+=====================
 
 - **publish**
 
