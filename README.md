@@ -31,6 +31,7 @@ If you already have a .bashrc that is setup to load a directory of .bashrc files
 
 ~~~
 curl https://raw.github.com/nnutter/git-branchdir-manager/master/setup.sh | bash
+source ~/.bashrc.d/git-branchdir-manager/git-branchdir-manager.sh
 ~~~
 
 Repo Subcommands
