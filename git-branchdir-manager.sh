@@ -22,7 +22,6 @@ function _gb_env {
 function _gb_help {
     echo "Usage:"
     echo "  gbm <repo_name> init <repo_url>"
-    echo "  gbm <repo_name> <branch_name> start"
     echo "  gbm <repo_name> <branch_name>"
     echo "  gbm <repo_name> <branch_name> update"
     echo "  gbm <repo_name> <branch_name> publish"
@@ -358,10 +357,6 @@ function _gb_complete {
         local GB_BRANCH=${COMP_WORDS[2]}
         if [ -d "$(_gb_branch_dir "$GB_REPO" "$GB_BRANCH")" ]; then
             COMPREPLY=($(compgen -W "publish lib rm update" -- $cur))
-        else
-            if [ "$GB_BRANCH" != "init" ]; then
-                COMPREPLY=($(compgen -W "start" -- $cur))
-            fi
         fi
     fi
 }
