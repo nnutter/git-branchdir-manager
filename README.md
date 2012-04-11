@@ -19,7 +19,7 @@ Configuration
 
 If you wish to override any of these setting export these variables in your `.bashrc` before you source git-branchdir-manager.sh.
 
-`GB_BASE_DIR` (default = "$HOME/git") The base directory where your repos will be stored.  
+`GB_BASE_DIR` (default = "$HOME/gbm") The base directory where your repos will be stored.  
 `GB_DEV_BRANCH` (default = "master") The branch you wish to develop off of.  
 `GB_DEV_REMOTE` (default = "origin") The remote you wish to develop off of.  
 `GB_WORKFLOW` (default = "rebase") Whether you rebase or merge.  

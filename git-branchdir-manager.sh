@@ -10,7 +10,7 @@ export GB_VERSION=$(cat ${SOURCE/git-branchdir-manager.sh/VERSION} 2> /dev/null 
 export GB_GIT_NEW_WORKDIR="$(cd -P "${SOURCE/git-branchdir-manager.sh/}" && pwd)/git-new-workdir"
 
 function _gb_env {
-    [ -z "$GB_BASE_DIR" ]        && GB_BASE_DIR="$HOME/git"
+    [ -z "$GB_BASE_DIR" ]        && GB_BASE_DIR="$HOME/gbm"
     [ -z "$GB_DEV_BRANCH" ]      && GB_DEV_BRANCH="master"
     [ -z "$GB_DEV_REMOTE" ]      && GB_DEV_REMOTE="origin"
     [ -z "$GB_MASTER_DIR_NAME" ] && GB_MASTER_DIR_NAME=".gb_master"
