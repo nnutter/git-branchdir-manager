@@ -7,12 +7,12 @@ Usage
 =====
 
 ~~~
-git-branchdir-manager <repo_name> init <repo_url>
-git-branchdir-manager <repo_name> <branch_name> start
-git-branchdir-manager <repo_name> <branch_name>
-git-branchdir-manager <repo_name> <branch_name> publish
-git-branchdir-manager <repo_name> <branch_name> rm
-git-branchdir-manager <repo_name> <branch_name> lib
+gbm <repo_name> init <repo_url>
+gbm <repo_name> <branch_name> start
+gbm <repo_name> <branch_name>
+gbm <repo_name> <branch_name> publish
+gbm <repo_name> <branch_name> rm
+gbm <repo_name> <branch_name> lib
 ~~~
 
 Configuration
@@ -28,7 +28,7 @@ If you wish to override any of these setting export these variables in your `.ba
 Install
 =======
 
-If you already have a .bashrc that is setup to load a directory of .bashrc files then just `git clone` in that directory. If you do not have this setup then running this will  set that up and source git-branchdir-manager. Feel free to peek at the [setup.sh source][1] and the [.bashrc addition][2].
+If you already have a .bashrc that is setup to load a directory of .bashrc files then just `git clone` in that directory. If you do not have this setup then running this will set that up and source git-branchdir-manager.sh. Feel free to peek at the [setup.sh source][1] and the [.bashrc addition][2].
 
 ~~~
 bash >(curl https://raw.github.com/nnutter/git-branchdir-manager/master/setup.sh)
