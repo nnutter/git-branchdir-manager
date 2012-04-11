@@ -124,7 +124,7 @@ function _gb_cd_branch {
         echo "ERROR: Branch directory does not exist ($GB_BRANCH_DIR)."
         echo -n "Do you wish to create the branch (y/n)? "
         local response
-        read -n 1 response && echo
+        read response
         if [ "$response" == "y" ]; then
             _gb_start_branch "$GB_REPO" "$GB_BRANCH"
         else
@@ -171,7 +171,7 @@ function _gb_rm_branch {
         git log --oneline $TRACKING_REF..$GB_BRANCH | cat
         echo -n "Do you wish to remove this branch (y/n)? "
         local response
-        read -n 1 response && echo
+        read response
         if [ "$response" != "y" ]; then
             return 255;
         fi
@@ -182,7 +182,7 @@ function _gb_rm_branch {
         git status -s
         echo -n "Do you wish to remove this branch (y/n)? "
         local response
-        read -n 1 response && echo
+        read response
         if [ "$response" != "y" ]; then
             return 255;
         fi
@@ -254,7 +254,7 @@ function _gb_start_branch {
         if [ -n "$TRACKING_REF" ] && [ "$TRACKING_REF" != "$GB_DEV_REMOTE/$GB_DEV_BRANCH" ]; then
             echo -n "Would you like to track the remote $GB_BRANCH branch (y/n)? "
             local response
-            read -n 1 response && echo
+            read response
             if [ "$response" == "y" ]; then
                 git reset --hard "$TRACKING_REF"
             else
@@ -488,7 +488,7 @@ function git-track {
     local CURRENT_BRANCH=$(_git_current_branch)
     echo -n "Are you sure you wish to replace the current working directory with $TRACK_BRANCH's (y/n)? "
     local response
-    read -n 1 response && echo
+    read response
     if [ "$response" == "y" ]; then
         git branch --set-upstream "$CURRENT_BRANCH" "$TRACK_BRANCH"
         git reset --hard "$TRACK_BRANCH"
