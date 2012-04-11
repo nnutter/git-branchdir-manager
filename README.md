@@ -27,10 +27,10 @@ If you wish to override any of these setting export these variables in your `.ba
 Install
 =======
 
-If you already have a .bashrc that is setup to load a directory of .bashrc files then just `git clone` in that directory. If you do not have this setup then running this will set that up and source git-branchdir-manager.sh. Feel free to peek at the [setup.sh source][1] and the [.bashrc addition][2].
+If you already have a .bashrc that is setup to load a directory of .bashrc files then just `git clone` in that directory. If you do not have this setup then running this will set that up and source git-branchdir-manager.sh. Feel free to peek at the [setup source][1] and the [.bashrc addition][2].
 
 ~~~
-curl https://raw.github.com/nnutter/git-branchdir-manager/master/setup.sh | bash
+curl https://raw.github.com/nnutter/git-branchdir-manager/master/setup | bash
 source ~/.bashrc.d/git-branchdir-manager/git-branchdir-manager.sh
 ~~~
 
@@ -67,5 +67,5 @@ TODO
 - Make it easier to move GB_BASE_DIR (e.g. fix git-new-workdir symlinks)
 - Manage a remote-less repo.
 
-[1]: https://github.com/nnutter/git-branchdir-manager/blob/master/setup.sh
+[1]: https://github.com/nnutter/git-branchdir-manager/blob/master/setup
 [2]: https://github.com/nnutter/git-branchdir-manager/blob/master/bashrc
