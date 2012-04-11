@@ -1,4 +1,6 @@
+alias b='git-branchdir-manager'
 alias gbm='git-branchdir-manager'
+complete -F _gb_complete b
 complete -F _gb_complete gbm
 complete -F _gb_complete git-branchdir-manager
 
