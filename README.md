@@ -1,7 +1,7 @@
 What is git-branchdir-manager?
 ==============================
 
-git-branchdir-manager creates separate working directories for each branch of a repo. It then helps you manage your repos and branches by providing tab completion to switch between them, create new branches, fold changes into your master branch, and remove branches.
+git-branchdir-manager creates separate working directories for each branch of a repo. It then helps you manage your repos and branches by providing tab completion to switch between them, create new branches, and publish branches to your master branch.
 
 Usage
 =====
@@ -30,7 +30,7 @@ Install
 If you already have a .bashrc that is setup to load a directory of .bashrc files then just `git clone` in that directory. If you do not have this setup then running this will set that up and source git-branchdir-manager.sh. Feel free to peek at the [setup.sh source][1] and the [.bashrc addition][2].
 
 ~~~
-bash >(curl https://raw.github.com/nnutter/git-branchdir-manager/master/setup.sh)
+curl https://raw.github.com/nnutter/git-branchdir-manager/master/setup.sh | bash
 ~~~
 
 Repo Subcommands
