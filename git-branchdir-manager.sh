@@ -167,8 +167,9 @@ function _gb_rm_branch {
     local TRACKING_REF=$(_git_tracking_ref "$GB_BRANCH")
     [[ -z "$TRACKING_REF" ]] && return 255
 
-    if [ "$(git log --oneline $TRACKING_REF..HEAD | wc -l)" != "0" ]; then
-        echo "ERROR: Unpushed changes in repo:"
+    local COUNT="$(git log --oneline $TRACKING_REF..HEAD | wc -l | sed 's/^ *//')"
+    if [ "$COUNT" != "0" ]; then
+        echo "ERROR: $COUNT unpushed commits in repo:"
         git log --oneline $TRACKING_REF..$GB_BRANCH | cat
         echo -n "Do you wish to remove this branch (y/n)? "
         local response
@@ -178,7 +179,8 @@ function _gb_rm_branch {
         fi
     fi
 
-    if [ "$(git status -s | wc -l)" != "0" ]; then
+    COUNT="$(git status -s | wc -l | sed 's/^ *//')"
+    if [ "$COUNT" != "0" ]; then
         echo "ERROR: Uncommitted changes in repo:"
         git status -s
         echo -n "Do you wish to remove this branch (y/n)? "
